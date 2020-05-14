@@ -84,19 +84,19 @@ class ShapeFactory {
 public:
     ShapeFactory() = default;
 
-    Shape *get_shape(const int type) {
+    unique_ptr<Shape> get_shape(const int type) {
         switch (type) {
             case 0:
-                return new Rectangle(3, 4);
+                return make_unique<Rectangle>(3, 4);
                 break;
             case 1:
-                return new Square(4);
+                return make_unique<Square>(4);
                 break;
             case 2:
-                return new Ellipse(5, 6);
+                return make_unique<Ellipse>(5, 6);
                 break;
             case 3:
-                return new Circle(6);
+                return make_unique<Circle>(6);
                 break;
             default:
                 throw invalid_argument("Shape options [0, 3]");
@@ -112,7 +112,7 @@ int main() {
     ShapeFactory shapeFactory;
 
     // Display some random shapes
-    Shape *shape_ptr;
+    unique_ptr<Shape> shape_ptr;
     for (int i = 0; i < 10; i++) {
         int shape_type = rand() % 4;
         shape_ptr = shapeFactory.get_shape(shape_type);
